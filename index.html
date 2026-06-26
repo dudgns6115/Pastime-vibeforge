@@ -2118,12 +2118,17 @@ body.battle-finished .flightWake{
 @media (orientation:portrait) and (max-width:900px){
   html,body{ overflow:hidden!important; width:100%; height:100%; }
   #appRoot{
-    display:block; position:fixed; top:0; left:0;
+    display:flex; flex-direction:column;       /* body의 원래 flex 컬럼 복원(arenaWrapper flex:1로 채움) */
+    position:fixed; top:0; left:0;
     width:100vh; height:100vw;                 /* 회전 프레임: 가로=실제세로, 세로=실제가로 */
     transform-origin:top left;
     transform:rotate(90deg) translateY(-100vw); /* 세로로 든 폰에서 가로로 회전 */
     overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
   }
+  /* vw/vmin 기반 폭 제약이 '회전 전' 세로 뷰포트(좁음)를 참조해 콘텐츠가 작아지고 가운데 정렬 → 회전 후 빈 띠.
+     회전 프레임의 폭 = 100vh 이므로 폭 제약을 풀어 프레임을 채운다. */
+  #controlPanel{ max-width:none!important; width:auto!important; }
+  #landingHub{ width:auto!important; max-width:none!important; }
   /* 회전 프레임의 높이 = 100vw 이므로, vh 의존 높이를 vw 기준으로 보정 */
   #fighters{ height:clamp(280px,60vw,760px)!important; }
 }
